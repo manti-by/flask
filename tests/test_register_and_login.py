@@ -1,3 +1,6 @@
+import os
+
+import redis
 import requests
 
 
@@ -11,4 +14,7 @@ def test_register_and_login():
     assert response.status_code == 200
 
     response = requests.post("http://0.0.0.0:5000/login/", data=test_data)
+    assert response.status_code == 200
+
+    response = requests.post("http://0.0.0.0:5000/logout/", data=test_data)
     assert response.status_code == 200

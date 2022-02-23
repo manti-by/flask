@@ -49,5 +49,16 @@ def login():
     return Response(status=400)
 
 
+@app.route("/logout/", methods=["POST"])
+def logout():
+    if request.method == "POST":
+        email = request.values.get("email")
+        hashed = redis_client.get(email)
+        if hashed and check_password(password=request.values.get("password"), hashed=hashed):
+            redis_client.delete(email)
+            return Response()
+    return Response(status=400)
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
